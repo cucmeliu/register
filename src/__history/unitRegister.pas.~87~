@@ -1,0 +1,138 @@
+unit unitRegister;
+
+interface
+
+uses Windows, Registry, Controls, SysUtils;
+
+type
+
+TMyRegister  = class
+
+private
+procedure writeKeyVal(key, sn: string);
+//function legelCheck: boolean;
+public
+
+function isRegisted: boolean;
+function isLegel(startDate: Tdatetime; key, startDateEncode: string): boolean;
+function tryRegister(macCode, key, sn: string): boolean;
+
+function isSerialNumOK(macCode, key, sn: string): boolean;
+
+function countLeftTryDays(startDate: TDatetime; tryDays: integer): integer;
+
+end;
+
+implementation
+
+uses unitHardware, Md5, unitProductInfo, DESUnit, unitPubMethod;
+
+{ TMyRegister }
+
+
+
+{ TMyRegister }
+
+function TMyRegister.countLeftTryDays(startDate: TDatetime;
+  tryDays: integer): integer;
+begin
+
+end;
+
+function TMyRegister.isLegel(startDate: Tdatetime; key, startDateEncode: string): boolean;
+begin
+    result := false;
+    
+    if (DESEncrypt(FormatDatetime('yyyy-mm-dd', startDate))
+      = startDateEncode) then
+      begin
+          result := true;
+      end;
+    
+    
+end;
+
+function TMyRegister.isRegisted: boolean;
+var
+  reg: TRegistry;
+  sn: string;
+  hi: THardwareInfo;
+begin
+  result := false;
+
+  sn := '';
+  reg := TRegistry.Create;
+  reg.rootkey:=HKEY_LOCAL_MACHINE;
+
+  if not reg.OpenKey(TProductInfo.RegistKey, true) then
+  begin
+  
+  end
+  else
+    begin
+      if reg.ValueExists('SN') then
+      begin
+        sn := reg.ReadString('SN');
+      end;
+
+      if not (sn = '') then
+      begin
+          hi := THardwareInfo.Create;
+
+          if isSerialNumOK(DESEncrypt(trim(hi.GetIdeSerialNumber),
+            TProductInfo.EncryKey),
+            TProductInfo.EncryKey, sn) then
+              result := true;
+            
+          hi.Free;
+      end;     
+    end;
+
+    reg.CloseKey;
+    reg.Free;   
+
+end;
+
+// 尝试注册，注册成功则返回true，否则返回false
+function TMyRegister.isSerialNumOK(macCode, key, sn: string): boolean;
+var
+  hwCode: string;
+begin
+  result := false;
+
+  hwCode := DESDecrypt(macCode, key);
+    
+  if sn = MD5Print(
+          MD5String(
+          PAnsiChar(hwCode))) then
+  begin
+        result := true;
+  end;
+end;
+
+
+function TMyRegister.tryRegister(macCode, key, sn: string): boolean;
+begin
+  result := false;
+  if isSerialNumOK(macCode, key, sn) then
+  begin
+      writeKeyVal('SN', sn);
+      result := true;
+  end;   
+
+end;
+
+procedure TMyRegister.writeKeyVal(key, sn: string);
+var
+  reg: TRegistry;
+begin
+    reg := TRegistry.Create;
+    reg.rootkey:=HKEY_LOCAL_MACHINE;
+    reg.OpenKey(TProductInfo.RegistKey, true);
+    reg.WriteString(key, sn);
+    reg.CloseKey;
+    reg.Free;
+
+end;
+
+end.

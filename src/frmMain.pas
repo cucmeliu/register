@@ -1,0 +1,250 @@
+unit frmMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, frmMainMode, ActnList, ComCtrls, Menus, RzGroupBar, SkinCaption,
+  WinSkinStore, WinSkinData, Registry, Shellapi;
+
+type
+  TMainForm = class(TMainModeForm)
+    ActionExit: TAction;
+    ActionConfig: TAction;
+    MainMenu1: TMainMenu;
+    E1: TMenuItem;
+    M1: TMenuItem;
+    N4: TMenuItem;
+    H1: TMenuItem;
+    ActionAbout: TAction;
+    A1: TMenuItem;
+    ActionInput: TAction;
+    SkinData1: TSkinData;
+    SkinStore1: TSkinStore;
+    N7: TMenuItem;
+    ActionChgPsw: TAction;
+    ActionHelp: TAction;
+    N5: TMenuItem;
+    N6: TMenuItem;
+    N8: TMenuItem;
+    O1: TMenuItem;
+    N1: TMenuItem;
+    SkinCaption1: TSkinCaption;
+    ActionRegist: TAction;
+    R1: TMenuItem;
+    procedure ActionChgPswExecute(Sender: TObject);
+    procedure ActionAboutExecute(Sender: TObject);
+    procedure ActionConfigExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure ActionExitExecute(Sender: TObject);
+    procedure ActionInputExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure ActionHelpExecute(Sender: TObject);
+    procedure ActionRegistExecute(Sender: TObject);
+  private
+    { Private declarations }
+    FIsRegisted: boolean;
+
+//    procedure activeFunc();
+    procedure deactiveFunc();
+    procedure dealUnregisted();
+    procedure dealUnregistedEasy();
+
+
+  public
+    { Public declarations }
+
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+uses frmInput, unitPubMethod, frmAdjust, frmFlash, frmChgPsw, frmPrintOption,
+  frmRegister, unitProductInfo, unitRegister;
+
+{$R *.dfm}
+
+procedure TMainForm.ActionAboutExecute(Sender: TObject);
+var
+  frm: TFlashForm;
+begin
+  inherited;
+    frm := TFlashForm.Create(nil);
+    frm.ShowModal;
+    frm.Free;
+
+end;
+
+procedure TMainForm.ActionChgPswExecute(Sender: TObject);
+var
+  frm: TChgPswForm;
+begin
+  inherited;
+    frm := TChgPswForm.Create(nil);
+    frm.ShowModal;
+    frm.Free;
+end;
+
+procedure TMainForm.ActionConfigExecute(Sender: TObject);
+var
+    frm: TPrintOptionForm;
+begin
+  inherited;
+    frm := TPrintOptionForm.Create(nil);
+    frm.ShowModal;
+    frm.Free;
+
+end;
+
+procedure TMainForm.ActionExitExecute(Sender: TObject);
+begin
+  inherited;
+    Close;
+
+end;
+
+procedure TMainForm.ActionHelpExecute(Sender: TObject);
+begin
+  inherited;
+    ShellExecute(handle, nil,
+      './manual.doc',
+      nil, nil, sw_shownormal);
+end;
+
+procedure TMainForm.ActionInputExecute(Sender: TObject);
+begin
+  inherited;
+    if not FindChildWindows(TInputForm.ClassName) then
+    begin
+        InputForm := TInputForm.Create(nil);
+        if not self.FIsRegisted then
+        begin
+            InputForm.ActionPrintList.Enabled := false;
+            InputForm.ActionPrintSingle.Enabled := false;
+            InputForm.ActionPrintAll.Enabled := false;
+        end;
+        
+        InputForm.Show;
+    end;
+end;
+
+procedure TMainForm.ActionRegistExecute(Sender: TObject);
+var
+  frm: TRegisterForm;
+begin
+  inherited;
+
+  frm := TRegisterForm.Create(nil);
+  frm.ShowModal;
+  frm.Free();
+
+end;
+
+//procedure TMainForm.activeFunc;
+//begin
+//    ActionConfig.Enabled := true;
+//    ActionChgPsw.Enabled := true;
+//    ActionInput.Enabled := true;
+//end;
+
+procedure TMainForm.deactiveFunc;
+begin
+    ActionConfig.Enabled := false;
+    ActionChgPsw.Enabled := false;
+    ActionInput.Enabled := false;
+end;
+
+procedure TMainForm.dealUnregisted;
+var
+  reg: TRegistry;
+  startDate: TDatetime;
+  startDateEncode: string;
+  mr: TMyRegister;
+begin     
+    startDate := now();  
+    reg := TRegistry.Create;
+    reg.rootkey:=HKEY_LOCAL_MACHINE;
+    if reg.OpenKey(TProductInfo.RegistKey, true)
+      and reg.ValueExists('StartDate') then
+        startDate := reg.ReadDate('StartDate')
+    else begin
+      reg.WriteString('StartDate', FormatDatetime('YYYY-mm-dd', now()));
+    end;
+
+    if reg.ValueExists('StartDateEncode') then
+      startDateEncode := reg.ReadString('StartDateEncode');
+
+    reg.Free;
+    
+          //  (readIntini('SETTING', 'RECORDCOUNT', 0) > 0) or
+    mr := TMyRegister.Create;
+    if (mr.isLegel(startDate, TProductInfo.EncryKey, startDateEncode)) then
+    begin
+      WarnMsg('您使用的是试用版，不能打印户籍卡，请及时注册！');
+    end else begin
+
+      deactiveFunc;
+      WarnMsg('您使用的试用版已经到期，请注册后使用！');
+    end;
+    mr.Free;
+
+end;
+
+procedure TMainForm.dealUnregistedEasy;
+begin
+    WarnMsg('您使用的是试用版，不能进行打印，请及时注册！');
+    self.Caption := self.Caption + ' ( 试用版 )';
+
+end;
+
+procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  inherited;
+    if not confMsg(self.Handle, '你确定要退出吗？') then
+        CanClose := false;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  inherited;
+    FIsRegisted := false;
+    skinData1.Active := false;
+    SkinData1.SkinFile := ExtractFilePath(application.ExeName)
+      + 'skn\' + ReadStrIni('UI', 'SKIN', 'Macos01.skn');
+    //infoMsg(pchar(SkinData1.SkinFile));
+    SkinData1.Active := true;
+
+end;
+
+procedure TMainForm.FormShow(Sender: TObject);
+var
+  prodInfo: TProductInfo;
+  mr: TMyRegister;
+begin
+  inherited;
+  prodInfo := TProductInfo.Create;
+
+  StatusBar1.Panels[0].Text := ReadStrIni('SETTING', 'COMPANY', '西安格瑞艾普科技有限公司');
+  StatusBar1.Panels[1].Text := prodInfo.ProdName;
+  StatusBar1.Panels[2].Text := prodInfo.CopyRight + ' ' + prodInfo.ProdMaker;
+  StatusBar1.Panels[3].Text := prodInfo.Email;
+  prodInfo.Free;        
+
+  mr := TMyRegister.Create;
+  if mr.isRegisted(TProductInfo.RegistKey,
+    TProductInfo.EncryKey) then
+  begin
+    FIsRegisted := true;
+  end
+  else begin
+    FIsRegisted := false;
+    dealUnregistedEasy();
+  end;
+
+
+end;   
+
+end.

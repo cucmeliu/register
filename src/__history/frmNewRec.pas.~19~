@@ -1,0 +1,377 @@
+unit frmNewRec;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ComCtrls, ExtCtrls, unitPerson;
+
+type
+  TNewRecForm = class(TForm)
+    bbtSave: TBitBtn;
+    bbtClose: TBitBtn;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Label1: TLabel;
+    HukouType: TComboBox;
+    Label10: TLabel;
+    Master: TEdit;
+    Label11: TLabel;
+    Relation: TComboBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label9: TLabel;
+    Gender: TRadioGroup;
+    Name: TEdit;
+    Birthday: TDateTimePicker;
+    Nationality: TComboBox;
+    BirthPlace: TEdit;
+    Native: TEdit;
+    Label2: TLabel;
+    IDCard: TEdit;
+    Label16: TLabel;
+    CardSignDate: TDateTimePicker;
+    Label17: TLabel;
+    Label18: TLabel;
+    Education: TComboBox;
+    Marrage: TComboBox;
+    Label19: TLabel;
+    Military: TComboBox;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    BloodType: TComboBox;
+    Career: TEdit;
+    Label8: TLabel;
+    Address: TEdit;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    MoveTime: TDateTimePicker;
+    MoveReason: TComboBox;
+    FromWhere: TEdit;
+    Label23: TLabel;
+    ServicePlace: TEdit;
+    Height: TEdit;
+    Label24: TLabel;
+    otherName: TEdit;
+    Label25: TLabel;
+    Guardian: TEdit;
+    Label26: TLabel;
+    GuardRela: TComboBox;
+    Label27: TLabel;
+    Religion: TComboBox;
+    Label28: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure bbtSaveClick(Sender: TObject);
+    procedure bbtCloseClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+    FPerson: TPerson;
+    FIsChanged: boolean;
+ //  FID: integer;
+
+    FAdd: boolean;
+
+    function getUI: boolean;
+    procedure fillUI();
+
+    procedure SetIsChanged(const Value: boolean);
+    procedure writeSetting();
+    procedure readSetting();
+
+  public
+    { Public declarations }
+    procedure addRecord();
+    procedure editRecord(ID: string); 
+  published
+    property IsChanged: boolean read FIsChanged write SetIsChanged;
+  end;
+
+    const ChineseNationality : array[0..55] of shortstring
+            = ('汉','蒙古','回','藏','维吾尔','苗','彝','壮','布依','朝鲜',
+            '满','侗','瑶','白','土家','哈尼','哈萨克','傣','黎','傈傈',
+            '佤','畲','高山','拉祜','水','东乡','纳西','景颇','柯尔克孜','土',
+            '达斡尔','仫佬','羌','布朗','撒拉','毛南','仡佬','锡伯','阿昌','普米',
+            '塔吉克','怒','乌兹别克','俄罗斯','鄂温克','德昂','保安','裕固','京','塔塔尔',
+            '独龙','鄂伦春','赫哲','门巴','珞巴','基诺');
+
+var
+  NewRecForm: TNewRecForm;
+
+implementation
+
+uses unitPubMethod;
+
+{$R *.dfm}
+
+procedure TNewRecForm.addRecord;
+begin
+    FAdd    := true;
+end;
+
+procedure TNewRecForm.bbtSaveClick(Sender: TObject);
+begin
+    
+    if not getUI then  exit;
+
+    writeSetting();
+
+    if FAdd then
+    begin
+        if FPerson.insertRec then
+        begin
+            infoMsg('添加记录成功，请继续！');
+            Name.Clear;
+            //FPerson.clear;
+            fillUI();
+        end else begin
+            WarnMsg('添加记录失败，请重试！');
+        end;
+        
+    end else begin     
+        if FPerson.updateRec then
+        begin
+            infoMsg('保存成功，请继续！');
+            
+        end else begin
+            WarnMsg('保存失败，请重试！');
+        end;
+    end;
+    Name.SetFocus;          
+
+    FIsChanged := true;
+
+end;
+
+procedure TNewRecForm.bbtCloseClick(Sender: TObject);
+begin
+    close;
+end;
+
+
+procedure TNewRecForm.editRecord(ID: string);
+begin
+    FAdd            := false;
+    FPerson.ID      := id;
+end;
+
+procedure TNewRecForm.fillUI;
+begin
+    HukouType.Text := FPerson.HukouType;
+    Master.Text    := FPerson.Master;
+    Relation.Text  := FPerson.Relation;
+    Name.Text      := FPerson.Name;
+
+    
+    if FPerson.Gender = '男' then
+        Gender.ItemIndex:=0
+    else
+        Gender.ItemIndex:=1;
+        
+    Birthday.Date       := FPerson.Birthday;
+    Nationality.Text    := FPerson.Nationality;
+    Native.Text         := FPerson.Native;
+    BirthPlace.Text     := FPerson.BirthPlace;
+    IDCard.Text         := FPerson.IDCard;
+    CardSignDate.Date   := FPerson.CardSignDate;
+    Education.Text      := FPerson.Education;
+    Marrage.Text        := FPerson.Marrage;
+    Military.Text       := FPerson.Military;
+    Height.Text         := intToStr(FPerson.Height);
+    BloodType.Text      := FPerson.BloodType;
+    Career.Text         := FPerson.Career;
+    ServicePlace.Text   := FPerson.ServicePlace;
+    Address.Text        := FPerson.Address;
+    MoveTime.Date       := FPerson.MoveTime;
+    MoveReason.Text     := FPerson.MoveReason;
+    FromWhere.Text      := FPerson.FromWhere;
+
+    Othername.Text      := FPerson.OtherName;
+    Guardian.Text       := FPerson.Guardian;
+    GuardRela.Text      := FPerson.GuardRela;
+    Religion.Text       := FPerson.Religion;
+
+end;
+
+procedure TNewRecForm.FormCreate(Sender: TObject);
+begin
+    FAdd    := true;
+    FPerson := TPerson.Create;
+end;
+
+procedure TNewRecForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+    if key=#13 then
+    begin
+        key:=#0;
+        Perform(CM_DialogKey,VK_TAB,0);
+    end;
+end;
+
+
+
+procedure TNewRecForm.FormShow(Sender: TObject);
+var
+  i: integer;
+begin
+
+    Nationality.Items.BeginUpdate; 
+    for I := 0 to length(ChineseNationality) - 1 do
+        Nationality.Items.Add(ChineseNationality[i]); //.Assign(TStrings(ChineseNationality));
+    Nationality.Items.EndUpdate;
+
+    readSetting();
+
+    if FAdd then  begin
+        Name.SetFocus;
+    end
+    else begin
+        Name.SetFocus;    
+        FPerson.getRecByID(FPerson.ID);
+    end;
+    fillUI();
+end;
+
+
+function TNewRecForm.getUI: boolean;
+begin
+    result := false;
+    
+    FPerson.HukouType   := HukouType.Text;
+    FPerson.Master      := Master.Text;
+    FPerson.Relation    := Relation.Text;
+
+    FPerson.Name        := trim(Name.Text);
+    if (FPerson.Name='') then
+    begin
+        infoMsg('姓名不能为空，请填写');
+        Name.SetFocus;
+        exit;
+    end;
+    
+    if Gender.ItemIndex=0 then
+        FPerson.Gender  := '男'
+    else
+        FPerson.Gender  := '女';
+        
+    FPerson.Birthday        := Birthday.Date;
+    FPerson.Nationality := Nationality.Text;
+    FPerson.Native      := Native.Text;
+    FPerson.BirthPlace  := BirthPlace.Text;
+    FPerson.IDCard      := IDCard.Text;
+    FPerson.CardSignDate    := CardSignDate.Date;
+
+    FPerson.OtherName   := OtherName.Text;
+    FPerson.Religion    := Religion.Text;
+    FPerson.Guardian    := Guardian.Text;
+    FPerson.GuardRela   := GuardRela.Text;
+    
+    FPerson.Education   := Education.Text;
+    FPerson.Marrage     := Marrage.Text;
+    FPerson.Military    := Military.Text;
+    FPerson.Height          := strToInt(trim(Height.Text));
+    FPerson.BloodType   := BloodType.Text;
+    FPerson.Career      := Career.Text;
+    
+    FPerson.ServicePlace:= ServicePlace.Text;
+    FPerson.Address     := Address.Text;
+
+    FPerson.MoveTime        := MoveTime.Date;
+    FPerson.MoveReason  := MoveReason.Text;
+    FPerson.FromWhere   := FromWhere.Text;     
+
+    result := true;
+end;
+
+procedure TNewRecForm.readSetting;
+begin
+    FPerson.HukouType := readStrini('PERSONDEFAULT', 'HukouType', '非农业集体户');
+    FPerson.Master := readStrini('PERSONDEFAULT', 'Master', '');
+    FPerson.Relation := readStrini('PERSONDEFAULT', 'Relation', '非亲属');
+
+    FPerson.Gender := readStrIni(('PERSONDEFAULT', 'Gender', '男');
+    FPerson.Birthday := readDateIni(('PERSONDEFAULT', 'Birthday', now());
+
+    FPerson.Nationality := readStrini('PERSONDEFAULT', 'Nationality', '汉');
+    FPerson.Native := readStrini('PERSONDEFAULT', 'Native', '');
+    FPerson.BirthPlace := readStrini('PERSONDEFAULT', 'BirthPlace', '');
+
+    FPerson.IDCard := readStrini('PERSONDEFAULT', 'IDCard', '');
+    FPerson.CardSignDate := readDateIni(('PERSONDEFAULT', 'CardSignDate', now());
+
+    FPerson.Religion := readStrini('PERSONDEFAULT', 'Religion', '无');
+    FPerson.Guardian := readStrini('PERSONDEFAULT', 'Guardian', '无');
+    FPerson.GuardRela := readStrini('PERSONDEFAULT', 'GuardRela', '无');
+
+    FPerson.Marrage := readStrini('PERSONDEFAULT', 'Marrage', '未婚');
+
+
+    
+    FPerson.Education := readStrini('PERSONDEFAULT', 'Education', '本科');
+    FPerson.Military := readStrini('PERSONDEFAULT', 'Military', '未服兵役');
+    FPerson.BloodType := readStrini('PERSONDEFAULT', 'BloodType', '不明');
+
+    FPerson.Career := readStrini('PERSONDEFAULT', 'Career', '学生');
+    FPerson.ServicePlace := readStrini('PERSONDEFAULT', 'ServicePlace', '');
+    FPerson.Address := readStrini('PERSONDEFAULT', 'Address', '');
+
+    FPerson.MoveTime := readDateini('PERSONDEFAULT', 'MoveTime', now);
+    FPerson.MoveReason := readStrini('PERSONDEFAULT', 'MoveReason', '升学');
+
+end;
+
+procedure TNewRecForm.SetIsChanged(const Value: boolean);
+begin
+  FIsChanged := Value;
+end;
+
+procedure TNewRecForm.writeSetting;
+begin
+    FPerson.Name        := trim(Name.Text);
+
+    WriteStrIni('PERSONDEFAULT', 'HukouType', FPerson.HukouType);
+    WriteStrIni('PERSONDEFAULT', 'Master',    FPerson.Master);
+    WriteStrIni('PERSONDEFAULT', 'Relation',  FPerson.Relation);
+
+    WriteStrIni('PERSONDEFAULT', 'Name',          FPerson.Name);
+    WriteStrIni('PERSONDEFAULT', 'Gender',        FPerson.Gender);
+    WriteDateIni('PERSONDEFAULT', 'Birthday',     FPerson.Birthday);
+
+    WriteStrIni('PERSONDEFAULT', 'Nationality',   FPerson.Nationality);
+    WriteStrIni('PERSONDEFAULT', 'Native',        FPerson.Native);
+    WriteStrIni('PERSONDEFAULT', 'BirthPlace',    FPerson.BirthPlace);
+
+    WriteStrIni('PERSONDEFAULT', 'IDCard',        FPerson.IDCard);
+    WriteDateIni('PERSONDEFAULT', 'CardSignDate', FPerson.CardSignDate);
+
+    WriteStrIni('PERSONDEFAULT', 'Religion',      FPerson.Religion);
+    WriteStrIni('PERSONDEFAULT', 'Guardian',      FPerson.Guardian);
+    WriteStrIni('PERSONDEFAULT', 'GuardRela',      FPerson.GuardRela);
+
+    WriteStrIni('PERSONDEFAULT', 'Marrage',       FPerson.Marrage);
+    WriteStrIni('PERSONDEFAULT', 'Education',     FPerson.Education);
+    WriteStrIni('PERSONDEFAULT', 'Military',      FPerson.Military);
+
+    WriteIntIni('PERSONDEFAULT', 'Height',      FPerson.Height);
+    WriteStrIni('PERSONDEFAULT', 'BloodType',     FPerson.BloodType);
+    WriteStrIni('PERSONDEFAULT', 'Career',        FPerson.Career);
+
+    WriteStrIni('PERSONDEFAULT', 'ServicePlace',  FPerson.ServicePlace);
+    WriteStrIni('PERSONDEFAULT', 'Address',       FPerson.Address);
+
+    WriteDateIni('PERSONDEFAULT', 'MoveTime',     FPerson.MoveTime);
+    WriteStrIni('PERSONDEFAULT', 'MoveReason',    FPerson.MoveReason);
+    WriteStrIni('PERSONDEFAULT', 'FromWhere',    FPerson.FromWhere);
+
+end;
+
+end.

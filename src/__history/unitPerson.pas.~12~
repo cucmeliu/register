@@ -1,0 +1,463 @@
+unit unitPerson;
+
+interface
+
+uses ADODB, SysUtils;
+
+
+type
+
+TPerson = class
+private
+    FMoveReason: shortstring;
+    FCardSignDate: TDatetime;
+    FName: shortstring;
+    FMarrage: shortstring;
+    FIDCard: shortstring;
+    FMoveTime: TDatetime;
+    FBirthday: TDatetime;
+    FMaster: shortstring;
+    FService: shortstring;
+    FGender: shortstring;
+    FID: shortstring;
+    FEducation: shortstring;
+    FNationality: shortstring;
+    FNative: shortstring;
+    FBloodType: shortstring;
+    FHukouType: shortstring;
+    FAddress: string;
+    FRelation: shortstring;
+    FHeight: byte;
+    FFromWhere: string;
+    FCareer: shortstring;
+    FBirthPlace: shortstring;
+    FMilitary: shortstring;
+    FReligion: shortstring;
+    FGuardian: shortstring;
+    FOtherName: shortstring;
+    FGuardRela: shortstring;
+    procedure SetAddress(const Value: string);
+    procedure SetBirthday(const Value: TDatetime);
+    procedure SetBirthPlace(const Value: shortstring);
+    procedure SetBloodType(const Value: shortstring);
+    procedure SetCardSignDate(const Value: TDatetime);
+    procedure SetCareer(const Value: shortstring);
+    procedure SetEducation(const Value: shortstring);
+    procedure SetFromWhere(const Value: string);
+    procedure SetGender(const Value: shortstring);
+    procedure SetHeight(const Value: byte);
+    procedure SetHukouType(const Value: shortstring);
+    procedure SetID(const Value: shortstring);
+    procedure SetIDCard(const Value: shortstring);
+    procedure SetMarrage(const Value: shortstring);
+    procedure SetMaster(const Value: shortstring);
+    procedure SetMilitary(const Value: shortstring);
+    procedure SetMoveReason(const Value: shortstring);
+    procedure SetMoveTime(const Value: TDatetime);
+    procedure SetName(const Value: shortstring);
+    procedure SetNationality(const Value: shortstring);
+    procedure SetNative(const Value: shortstring);
+    procedure SetRelation(const Value: shortstring);
+    procedure SetService(const Value: shortstring);
+
+    function execSQL(const execType: shortstring): boolean;
+    procedure SetGuardian(const Value: shortstring);
+    procedure SetGuardRela(const Value: shortstring);
+    procedure SetOtherName(const Value: shortstring);
+    procedure SetReligion(const Value: shortstring);
+
+public
+    function getRecByID(value: string): boolean;
+    function getRecByName(value: string): boolean;
+    function insertRec(): boolean;
+    function updateRec(): boolean;
+    function isIDExist(value: string): boolean;
+
+    procedure readConf(fileName: string);
+    procedure clear;   
+    constructor Create;
+
+published
+    property ID: shortstring read FID write SetID;   // 编号
+
+    property HukouType: shortstring read FHukouType write SetHukouType;  //户别
+    property Master: shortstring read FMaster write SetMaster; //户主
+    property Relation: shortstring read FRelation write SetRelation; //与户主关系
+
+    property Name: shortstring read FName write SetName;    // 姓名
+    property Gender: shortstring read FGender write SetGender;  //性别
+    property Birthday: TDatetime read FBirthday write SetBirthday; //出生日期
+    property Nationality: shortstring read FNationality write SetNationality;  // 民族
+    property Native: shortstring read FNative write SetNative;       // 籍贯
+    property BirthPlace: shortstring read FBirthPlace write SetBirthPlace;   /// 出生地
+    property IDCard: shortstring read FIDCard write SetIDCard; //身份证
+    property CardSignDate: TDatetime read FCardSignDate write SetCardSignDate;  // 签发日期
+
+    property OtherName: shortstring read FOtherName write SetOtherName;
+    property Religion: shortstring read FReligion write SetReligion;
+    property Guardian: shortstring read FGuardian write SetGuardian;
+    property GuardRela: shortstring read FGuardRela write SetGuardRela;
+
+    property Education: shortstring read FEducation write SetEducation;
+    property Marrage: shortstring read FMarrage write SetMarrage;
+    property Military: shortstring read FMilitary write SetMilitary;
+    property Height: byte read FHeight write SetHeight;
+    property BloodType: shortstring read FBloodType write SetBloodType;
+    property Career: shortstring read FCareer write SetCareer;
+    
+    property ServicePlace: shortstring read FService write SetService;
+    property Address: string read FAddress write SetAddress;
+    property MoveTime: TDatetime read FMoveTime write SetMoveTime;
+    property MoveReason: shortstring read FMoveReason write SetMoveReason;
+    property FromWhere: string read FFromWhere write SetFromWhere;
+
+    // bYear, bMonth, bDay: integer;
+end;
+
+implementation
+
+uses frmDM, unitPubMethod;
+
+{ TPerson }
+
+procedure TPerson.clear;
+begin
+    
+    FName := '';
+    FCardSignDate := now();
+
+    FMarrage := '未婚';
+    FBirthday := now();
+    FGender := '女';
+
+    FEducation := '本科';
+    FNationality := '汉';
+    FBloodType := '不明';
+    FHukouType := '非农业集体户';
+    
+    FRelation := '非亲属';
+    FHeight := 170;
+    FMilitary := '未服兵役';
+
+    // 下面的相对稳定，读配置文件
+    FMaster := '';
+    FCareer := '';
+    FService := '';
+    FAddress := '';
+    FMoveReason := '升学';
+    FMoveTime := now();
+end;
+
+constructor TPerson.Create;
+begin
+    clear;
+end;
+
+
+function TPerson.execSQL(const execType: shortstring): boolean;
+var
+    adoQuery: TAdoQuery;
+const
+    SqlInsert: widestring = 'INSERT INTO Records ( HukouType,  Master, Relation, '
+        + ' Name,  Gender,  Birthday,  Nationality,  Native, ' // ,
+        + ' BirthPlace,  IDCard, CardSignDate,  Education,  Marrage,  '   //
+        + ' Military, Height,  BloodType,  Career,  ServicePlace, '
+        + ' Address,  MoveTime,  MoveReason,  FromWhere, '
+        + ' OtherName, Guardian, GuardRela, Religion ) '
+        
+        + ' VALUES ( :HukouType, :Master, :Relation, '
+        + ' :Name, :Gender, :Birthday, :Nationality, :Native, ' //  ,
+        + ' :BirthPlace, :IDCard, :CardSignDate, :Education, :Marrage, '  //
+        + ' :Military, :Height, :BloodType, :Career, :ServicePlace, '
+        + ' :Address, :MoveTime, :MoveReason, :FromWhere, '
+        + ' :OtherName, :Guardian, :GuardRela, :Religion)';
+                                      
+    SqlUpdate: widestring = 'UPDATE Records SET HukouType=:HukouType, Master=:Master, '
+        + ' Relation=:Relation, Name=:Name, Gender=:Gender, Birthday=:Birthday, Nationality=:Nationality, Native=:Native, '
+        + ' BirthPlace=:BirthPlace, IDCard=:IDCard, CardSignDate=:CardSignDate, Education=:Education, Marrage=:Marrage, '
+        + ' Military=:Military, Height=:Height, BloodType=:BloodType, Career=:Career, ServicePlace=:ServicePlace, '
+        + ' Address=:Address, MoveTime=:MoveTime, MoveReason=:MoveReason, FromWhere=:FromWhere, '
+        + ' OtherName=:OtherName, Guardian=:Guardian, GuardRela=:GuardRela, Religion=:Religion '
+        + ' WHERE id=:id';
+
+begin
+    result := false;
+    adoQuery := TAdoQuery.Create(nil);
+    adoQuery.Connection := dm.ac;
+    adoQuery.SQL.Clear;
+    if execType='insert' then
+    begin
+        adoQuery.SQL.Add(SqlInsert);
+    end
+    else if execType='update' then
+    begin
+        adoQuery.SQL.Add(SqlUpdate);
+        adoQuery.Parameters.ParamByName('id').Value := FID;
+    end
+    else begin
+        adoQuery.Free;
+        exit;
+    end;
+
+    with adoQuery.Parameters do
+    begin
+        ParamByName('HukouType').Value := FHukouType;
+        ParamByName('Master').Value := FMaster;
+        ParamByName('Relation').Value := FRelation;
+
+        ParamByName('Name').Value := FName;
+        ParamByName('Gender').Value := FGender;
+        ParamByName('Birthday').Value := FormatDatetime('yyyy-mm-dd', FBirthday);
+        ParamByName('Nationality').Value := FNationality;
+        ParamByName('Native').Value := FNative;
+//
+        ParamByName('OtherName').Value := FOtherName;
+        ParamByName('Guardian').Value := FGuardian;
+        ParamByName('GuardRela').Value := FGuardRela;
+        ParamByName('Religion').Value := FReligion;
+
+        ParamByName('BirthPlace').Value := FBirthPlace;
+        ParamByName('IDCard').Value := FIDCard;
+        ParamByName('CardSignDate').Value := FormatDatetime('yyyy-mm-dd', FCardSignDate);
+        ParamByName('Education').Value := FEducation;
+        ParamByName('Marrage').Value := FMarrage;
+
+        ParamByName('Military').Value := FMilitary;
+        ParamByName('Height').Value := FHeight;
+        ParamByName('BloodType').Value := FBloodType;
+        ParamByName('Career').Value := FCareer;
+        ParamByName('ServicePlace').Value := FService;
+
+        ParamByName('Address').Value := FAddress;
+        ParamByName('MoveTime').Value := FormatDatetime('yyyy-mm-dd', FMoveTime);
+        ParamByName('MoveReason').Value := FMoveReason;
+        ParamByName('FromWhere').Value := FFromWhere;
+
+    end;
+
+    //infoMsg(adoQuery.SQL.GetText);
+    if adoQuery.ExecSQL<>0 then
+    begin
+      result := true;
+    end;
+
+    adoQuery.Free;
+end;
+
+function TPerson.getRecByID(value: string): boolean;
+var
+  adoQuery: TAdoQuery;     
+  const
+  sqlStr: widestring='SELECT * from records where id=:id';
+begin
+    result := false;
+    adoQuery := TAdoQuery.Create(nil);
+    adoQuery.Connection := dm.ac;
+    adoQuery.SQL.Clear;
+    adoQuery.SQL.Add(sqlStr);
+    adoQuery.Parameters.ParamByName('id').Value  := value;
+    adoQuery.Open;
+
+        if adoQuery.RecordCount=0 then
+            exit;
+
+        result := true;
+
+    FID := adoQuery.FieldByName('ID').AsString;
+
+    FHukouType := adoQuery.FieldByName('HukouType').AsString;
+    FMaster := adoQuery.FieldByName('Master').AsString;
+    FRelation := adoQuery.FieldByName('Relation').AsString;
+
+    FName := adoQuery.FieldByName('Name').AsString;
+    FGender := adoQuery.FieldByName('Gender').AsString;
+    FBirthday := adoQuery.FieldByName('Birthday').AsDateTime;
+    FNationality := adoQuery.FieldByName('Nationality').AsString;
+    FNative := adoQuery.FieldByName('Native').AsString;
+
+    FOtherName := adoQuery.FieldByName('OtherName').AsString;
+    FReligion := adoQuery.FieldByName('Religion').AsString;
+    FGuardian := adoQuery.FieldByName('Guardian').AsString;
+    FGuardRela := adoQuery.FieldByName('GuardRela').AsString;
+
+    FBirthPlace := adoQuery.FieldByName('BirthPlace').AsString;
+    FIDCard := adoQuery.FieldByName('IDCard').AsString;
+    FCardSignDate := adoQuery.FieldByName('CardSignDate').AsDateTime;
+    FEducation := adoQuery.FieldByName('Education').AsString;
+    FMarrage := adoQuery.FieldByName('Marrage').AsString;
+
+    FMilitary := adoQuery.FieldByName('Military').AsString;
+    FHeight := adoQuery.FieldByName('Height').AsInteger;
+    FBloodType := adoQuery.FieldByName('BloodType').AsString;
+    FCareer := adoQuery.FieldByName('Career').AsString;
+    FService := adoQuery.FieldByName('ServicePlace').AsString;
+
+    FAddress := adoQuery.FieldByName('Address').AsString;
+    FMoveTime := adoQuery.FieldByName('MoveTime').AsDateTime;
+    FMoveReason := adoQuery.FieldByName('MoveReason').AsString;
+    FFromWhere := adoQuery.FieldByName('FromWhere').AsString;
+    
+    adoQuery.Close;
+end;
+
+function TPerson.getRecByName(value: string): boolean;
+begin
+    result := true;
+end;
+
+function TPerson.InsertRec: boolean;
+begin
+    result := execSQL('insert');
+end;
+
+function TPerson.isIDExist(value: string): boolean;
+begin
+    result := true;
+end;
+
+procedure TPerson.readConf(fileName: string);
+begin
+
+end;
+
+procedure TPerson.SetAddress(const Value: string);
+begin
+  FAddress := Value;
+end;
+
+procedure TPerson.SetBirthday(const Value: TDatetime);
+begin
+  FBirthday := Value;
+end;
+
+procedure TPerson.SetBirthPlace(const Value: shortstring);
+begin
+  FBirthPlace := Value;
+end;
+
+procedure TPerson.SetBloodType(const Value: shortstring);
+begin
+  FBloodType := Value;
+end;
+
+procedure TPerson.SetCardSignDate(const Value: TDatetime);
+begin
+  FCardSignDate := Value;
+end;
+
+procedure TPerson.SetCareer(const Value: shortstring);
+begin
+  FCareer := Value;
+end;
+
+procedure TPerson.SetEducation(const Value: shortstring);
+begin
+  FEducation := Value;
+end;
+
+procedure TPerson.SetFromWhere(const Value: string);
+begin
+  FFromWhere := Value;
+end;
+
+procedure TPerson.SetGender(const Value: shortstring);
+begin
+  FGender := Value;
+end;
+
+procedure TPerson.SetGuardian(const Value: shortstring);
+begin
+  FGuardian := Value;
+end;
+
+procedure TPerson.SetGuardRela(const Value: shortstring);
+begin
+  FGuardRela := Value;
+end;
+
+procedure TPerson.SetHeight(const Value: byte);
+begin
+  FHeight := Value;
+end;
+
+procedure TPerson.SetHukouType(const Value: shortstring);
+begin
+  FHukouType := Value;
+end;
+
+procedure TPerson.SetID(const Value: shortstring);
+begin
+  FID := Value;
+end;
+
+procedure TPerson.SetIDCard(const Value: shortstring);
+begin
+  FIDCard := Value;
+end;
+
+procedure TPerson.SetMarrage(const Value: shortstring);
+begin
+  FMarrage := Value;
+end;
+
+procedure TPerson.SetMaster(const Value: shortstring);
+begin
+  FMaster := Value;
+end;
+
+procedure TPerson.SetMilitary(const Value: shortstring);
+begin
+  FMilitary := Value;
+end;
+
+procedure TPerson.SetMoveReason(const Value: shortstring);
+begin
+  FMoveReason := Value;
+end;
+
+procedure TPerson.SetMoveTime(const Value: TDatetime);
+begin
+  FMoveTime := Value;
+end;
+
+procedure TPerson.SetName(const Value: shortstring);
+begin
+  FName := Value;
+end;
+
+procedure TPerson.SetNationality(const Value: shortstring);
+begin
+  FNationality := Value;
+end;
+
+procedure TPerson.SetNative(const Value: shortstring);
+begin
+  FNative := Value;
+end;
+
+procedure TPerson.SetOtherName(const Value: shortstring);
+begin
+  FOtherName := Value;
+end;
+
+procedure TPerson.SetRelation(const Value: shortstring);
+begin
+  FRelation := Value;
+end;
+
+procedure TPerson.SetReligion(const Value: shortstring);
+begin
+  FReligion := Value;
+end;
+
+procedure TPerson.SetService(const Value: shortstring);
+begin
+  FService := Value;
+end;
+
+function TPerson.updateRec: boolean;
+begin
+    result := execSQL('update');
+end;
+
+end.

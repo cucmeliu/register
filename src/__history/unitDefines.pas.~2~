@@ -1,0 +1,10 @@
+unit unitDefines;
+
+interface
+  const EncryKey: string= 'CUCME';
+
+
+
+implementation
+
+end.

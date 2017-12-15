@@ -1,0 +1,136 @@
+inherited ChgPswForm: TChgPswForm
+  Caption = #20462#25913#23494#30721
+  ClientHeight = 327
+  ClientWidth = 339
+  KeyPreview = True
+  OnKeyPress = FormKeyPress
+  ExplicitWidth = 345
+  ExplicitHeight = 355
+  PixelsPerInch = 96
+  TextHeight = 16
+  inherited pnlTop: TPanel
+    Width = 339
+    Height = 1
+    ExplicitWidth = 339
+    ExplicitHeight = 1
+    inherited imgTop: TImage
+      Width = 339
+      Height = 1
+      ExplicitWidth = 339
+      ExplicitHeight = 1
+    end
+    inherited lblTitle: TLabel
+      Width = 339
+      Height = 1
+      Font.Color = clYellow
+    end
+  end
+  inherited pnlBottom: TPanel
+    Top = 277
+    Width = 339
+    TabOrder = 3
+    ExplicitTop = 277
+    ExplicitWidth = 339
+    inherited pnlBottomButton: TPanel
+      Left = 115
+      BevelOuter = bvNone
+      ExplicitLeft = 115
+      inherited bbtAction: TBitBtn
+        Caption = #20462#25913'(&S)'
+        OnClick = bbtActionClick
+      end
+      inherited bbtFinish: TBitBtn
+        Caption = #20851#38381'(&C)'
+      end
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 26
+    Top = 8
+    Width = 289
+    Height = 105
+    Caption = #21407#29992#25143#21517#21644#23494#30721
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 48
+      Top = 40
+      Width = 48
+      Height = 16
+      Caption = #29992#25143#21517
+    end
+    object Label2: TLabel
+      Left = 48
+      Top = 72
+      Width = 48
+      Height = 16
+      Caption = #23494'  '#30721
+    end
+    object eOUser: TEdit
+      Left = 102
+      Top = 37
+      Width = 121
+      Height = 24
+      TabOrder = 0
+    end
+    object eOPsw: TEdit
+      Left = 102
+      Top = 67
+      Width = 121
+      Height = 24
+      PasswordChar = '*'
+      TabOrder = 1
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 26
+    Top = 128
+    Width = 289
+    Height = 137
+    Caption = #26032#29992#25143#21517#21644#23494#30721
+    TabOrder = 2
+    object Label3: TLabel
+      Left = 48
+      Top = 40
+      Width = 48
+      Height = 16
+      Caption = #29992#25143#21517
+    end
+    object Label4: TLabel
+      Left = 48
+      Top = 72
+      Width = 48
+      Height = 16
+      Caption = #23494'  '#30721
+    end
+    object Label5: TLabel
+      Left = 48
+      Top = 97
+      Width = 48
+      Height = 16
+      Caption = #30830'  '#35748
+    end
+    object eNUser: TEdit
+      Left = 102
+      Top = 37
+      Width = 121
+      Height = 24
+      TabOrder = 0
+    end
+    object eNewPsw: TEdit
+      Left = 102
+      Top = 67
+      Width = 121
+      Height = 24
+      PasswordChar = '*'
+      TabOrder = 1
+    end
+    object eNewPswConf: TEdit
+      Left = 102
+      Top = 94
+      Width = 121
+      Height = 24
+      PasswordChar = '*'
+      TabOrder = 2
+    end
+  end
+end

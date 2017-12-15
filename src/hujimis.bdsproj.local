@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2008-10-27 20:03:20.203.pas,D:\document\Borland Studio Projects\Unit1.pas=D:\project\户籍管理\src\frmMain.pas</Transaction>
+    <Transaction>2008-10-27 20:03:20.203.dfm,D:\document\Borland Studio Projects\Unit1.dfm=D:\project\户籍管理\src\frmMain.dfm</Transaction>
+    <Transaction>2008-10-27 20:03:29.328.bdsproj,D:\document\Borland Studio Projects\Project1.bdsproj=D:\project\户籍管理\src\hujimis.bdsproj</Transaction>
+    <Transaction>2008-10-27 20:10:01.546.pas,D:\project\户籍管理\src\frmMain.pas=</Transaction>
+    <Transaction>2008-10-27 20:10:01.546.dfm,D:\project\户籍管理\src\frmMain.dfm=</Transaction>
+    <Transaction>2008-10-27 20:10:06.687.pas,D:\project\户籍管理\src\Unit1.pas=D:\project\户籍管理\src\frmMain.pas</Transaction>
+    <Transaction>2008-10-27 20:10:06.687.dfm,D:\project\户籍管理\src\Unit1.dfm=D:\project\户籍管理\src\frmMain.dfm</Transaction>
+    <Transaction>2008-10-27 21:15:58.187.pas,D:\project\户籍管理\src\Unit1.pas=D:\project\户籍管理\src\frmInput.pas</Transaction>
+    <Transaction>2008-10-27 21:15:58.203.dfm,D:\project\户籍管理\src\Unit1.dfm=D:\project\户籍管理\src\frmInput.dfm</Transaction>
+    <Transaction>2008-10-27 21:39:55.484.pas,D:\project\户籍管理\src\frmInput.pas=</Transaction>
+    <Transaction>2008-10-27 21:39:55.484.dfm,D:\project\户籍管理\src\frmInput.dfm=</Transaction>
+    <Transaction>2008-10-27 21:40:02.828.pas,D:\project\户籍管理\src\Unit1.pas=D:\project\户籍管理\src\frmInput.pas</Transaction>
+    <Transaction>2008-10-27 21:40:02.828.dfm,D:\project\户籍管理\src\Unit1.dfm=D:\project\户籍管理\src\frmInput.dfm</Transaction>
+    <Transaction>2008-10-27 21:58:42.156.pas,D:\project\户籍管理\src\Unit1.pas=D:\project\户籍管理\src\frmAdjust.pas</Transaction>
+    <Transaction>2008-10-27 21:58:42.156.dfm,D:\project\户籍管理\src\Unit1.dfm=D:\project\户籍管理\src\frmAdjust.dfm</Transaction>
+    <Transaction>2008-10-29 22:07:17.140.pas,D:\project\户籍管理\src\Unit1.pas=D:\project\户籍管理\src\frmDM.pas</Transaction>
+    <Transaction>2008-10-29 22:07:17.140.dfm,D:\project\户籍管理\src\Unit1.dfm=D:\project\户籍管理\src\frmDM.dfm</Transaction>
+    <Transaction>2008-11-05 21:25:07.606.pas,E:\project\户籍管理\src\Unit1.pas=E:\project\户籍管理\src\frmLogin.pas</Transaction>
+    <Transaction>2008-11-05 21:25:07.606.dfm,E:\project\户籍管理\src\Unit1.dfm=E:\project\户籍管理\src\frmLogin.dfm</Transaction>
+    <Transaction>2008-11-06 10:51:26.859.pas,E:\project\户籍管理\src\frmLogin.pas=</Transaction>
+    <Transaction>2008-11-06 10:51:26.859.dfm,E:\project\户籍管理\src\frmLogin.dfm=</Transaction>
+    <Transaction>2008-11-06 10:58:43.593.pas,E:\project\户籍管理\src\Unit1.pas=E:\project\户籍管理\src\frmChgPsw.pas</Transaction>
+    <Transaction>2008-11-06 10:58:43.593.dfm,E:\project\户籍管理\src\Unit1.dfm=E:\project\户籍管理\src\frmChgPsw.dfm</Transaction>
+    <Transaction>2008-11-06 11:34:42.218.pas,E:\project\户籍管理\src\Unit1.pas=E:\project\户籍管理\src\frmPrintRange.pas</Transaction>
+    <Transaction>2008-11-06 11:34:42.218.dfm,E:\project\户籍管理\src\Unit1.dfm=E:\project\户籍管理\src\frmPrintRange.dfm</Transaction>
+    <Transaction>2011-08-08 22:39:08.263.pas,D:\workspace\户籍管理\src\Unit1.pas=D:\workspace\户籍管理\src\frmNewRec.pas</Transaction>
+    <Transaction>2011-08-08 22:39:08.283.dfm,D:\workspace\户籍管理\src\Unit1.dfm=D:\workspace\户籍管理\src\frmNewRec.dfm</Transaction>
+    <Transaction>2011-08-08 22:56:31.252.pas,D:\workspace\户籍管理\src\Unit1.pas=D:\workspace\户籍管理\src\unitPerson.pas</Transaction>
+    <Transaction>2011-09-16 21:51:42.840.pas,D:\workspace\户籍管理\src\Unit1.pas=D:\workspace\户籍管理\src\frmPrintOption.pas</Transaction>
+    <Transaction>2011-09-16 21:51:42.840.dfm,D:\workspace\户籍管理\src\Unit1.dfm=D:\workspace\户籍管理\src\frmPrintOption.dfm</Transaction>
+    <Transaction>2011-09-24 22:05:43.611.pas,D:\workspace\户籍管理\src\Unit1.pas=D:\workspace\户籍管理\src\unitPrintOption.pas</Transaction>
+    <Transaction>2012-10-27 08:15:04.848.pas,D:\workplace\户籍管理\src\Unit1.pas=D:\workplace\户籍管理\src\unitDefines.pas</Transaction>
+    <Transaction>2012-10-28 00:22:51.542.pas,D:\workplace\户籍管理\src\Unit1.pas=D:\workplace\户籍管理\src\frmRegister.pas</Transaction>
+    <Transaction>2012-10-28 00:22:51.542.dfm,D:\workplace\户籍管理\src\Unit1.dfm=D:\workplace\户籍管理\src\frmRegister.dfm</Transaction>
+    <Transaction>2012-10-28 01:27:31.020.pas,D:\workplace\户籍管理\src\Unit1.pas=D:\workplace\户籍管理\src\unitRegister.pas</Transaction>
+    <Transaction>2012-10-28 01:29:13.297.pas,D:\workplace\户籍管理\src\Unit1.pas=D:\workplace\户籍管理\src\unitProductInfo.pas</Transaction>
+    <Transaction>2012-10-28 01:39:43.413.pas,D:\workplace\户籍管理\src\Unit1.pas=D:\workplace\户籍管理\src\unitHardware.pas</Transaction>
+    <Transaction>2012-10-28 02:03:56.763.pas,D:\workplace\户籍管理\src\unitHardware.pas=</Transaction>
+    <Transaction>2012-10-28 10:52:17.216.pas,D:\workplace\户籍管理\src\pubUse\Md5.pas=</Transaction>
+  </Transactions>
+</BorlandProject>

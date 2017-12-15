@@ -1,0 +1,315 @@
+object PrintOptionForm: TPrintOptionForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = #25171#21360#35774#32622
+  ClientHeight = 446
+  ClientWidth = 470
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -19
+  Font.Name = #23435#20307
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 19
+  object Label1: TLabel
+    Left = 24
+    Top = 10
+    Width = 76
+    Height = 19
+    Caption = #21333#20301#21517#31216
+  end
+  object Label2: TLabel
+    Left = 22
+    Top = 56
+    Width = 76
+    Height = 19
+    Caption = #25171#21360#26041#24335
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 91
+    Width = 449
+    Height = 302
+    Caption = #25171#21360#39033#30446
+    TabOrder = 2
+    object Bevel1: TBevel
+      Left = 32
+      Top = 55
+      Width = 391
+      Height = 9
+      Shape = bsTopLine
+    end
+    object Bevel2: TBevel
+      Left = 32
+      Top = 172
+      Width = 391
+      Height = 9
+      Shape = bsTopLine
+    end
+    object Bevel3: TBevel
+      Left = 32
+      Top = 236
+      Width = 391
+      Height = 9
+      Shape = bsTopLine
+    end
+    object HukouType: TCheckBox
+      Left = 32
+      Top = 32
+      Width = 73
+      Height = 17
+      Caption = #25143#21035
+      Checked = True
+      State = cbChecked
+      TabOrder = 0
+    end
+    object master: TCheckBox
+      Left = 159
+      Top = 32
+      Width = 121
+      Height = 17
+      Caption = #25143#20027#22995#21517
+      Checked = True
+      State = cbChecked
+      TabOrder = 1
+    end
+    object relation: TCheckBox
+      Left = 302
+      Top = 32
+      Width = 121
+      Height = 17
+      Caption = #19982#25143#20027#20851#31995
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+    end
+    object name: TCheckBox
+      Left = 32
+      Top = 71
+      Width = 121
+      Height = 17
+      Caption = #22995#21517
+      Checked = True
+      State = cbChecked
+      TabOrder = 3
+    end
+    object gender: TCheckBox
+      Left = 159
+      Top = 71
+      Width = 121
+      Height = 17
+      Caption = #24615#21035
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
+    end
+    object birthday: TCheckBox
+      Left = 302
+      Top = 71
+      Width = 121
+      Height = 17
+      Caption = #20986#29983#26085#26399
+      Checked = True
+      State = cbChecked
+      TabOrder = 5
+    end
+    object Nationality: TCheckBox
+      Left = 32
+      Top = 94
+      Width = 121
+      Height = 17
+      Caption = #27665#26063
+      Checked = True
+      State = cbChecked
+      TabOrder = 6
+    end
+    object Native: TCheckBox
+      Left = 159
+      Top = 94
+      Width = 121
+      Height = 17
+      Caption = #31821#36143
+      TabOrder = 7
+    end
+    object BirthPlace: TCheckBox
+      Left = 302
+      Top = 94
+      Width = 121
+      Height = 17
+      Caption = #20986#29983#22320
+      TabOrder = 8
+    end
+    object IDCard: TCheckBox
+      Left = 159
+      Top = 140
+      Width = 121
+      Height = 17
+      Caption = #36523#20221#35777#21495
+      TabOrder = 13
+    end
+    object CardSignDate: TCheckBox
+      Left = 302
+      Top = 140
+      Width = 121
+      Height = 17
+      Caption = #31614#21457#26085#26399
+      TabOrder = 14
+    end
+    object Education: TCheckBox
+      Left = 32
+      Top = 190
+      Width = 121
+      Height = 17
+      Caption = #25991#21270#31243#24230
+      TabOrder = 15
+    end
+    object Marrage: TCheckBox
+      Left = 159
+      Top = 190
+      Width = 121
+      Height = 17
+      Caption = #23130#23035#29366#20917
+      TabOrder = 16
+    end
+    object Military: TCheckBox
+      Left = 302
+      Top = 190
+      Width = 121
+      Height = 17
+      Caption = #20853#24441#29366#20917
+      TabOrder = 17
+    end
+    object Height: TCheckBox
+      Left = 32
+      Top = 213
+      Width = 121
+      Height = 17
+      Caption = #36523#39640
+      TabOrder = 18
+    end
+    object BloodType: TCheckBox
+      Left = 159
+      Top = 213
+      Width = 121
+      Height = 17
+      Caption = #34880#22411
+      TabOrder = 19
+    end
+    object Career: TCheckBox
+      Left = 302
+      Top = 213
+      Width = 121
+      Height = 17
+      Caption = #32844#19994
+      TabOrder = 20
+    end
+    object ServicePlace: TCheckBox
+      Left = 32
+      Top = 251
+      Width = 121
+      Height = 17
+      Caption = #26381#21153#22788#25152
+      TabOrder = 21
+    end
+    object Address: TCheckBox
+      Left = 302
+      Top = 251
+      Width = 121
+      Height = 17
+      Caption = #20303#22336
+      TabOrder = 22
+    end
+    object MoveReason: TCheckBox
+      Left = 32
+      Top = 274
+      Width = 266
+      Height = 17
+      Caption = #20309#26102#20309#22240#30001#20309#22320#36801#26469#26412#24066
+      TabOrder = 23
+    end
+    object othername: TCheckBox
+      Left = 32
+      Top = 117
+      Width = 97
+      Height = 17
+      Caption = #26366#29992#21517
+      TabOrder = 9
+    end
+    object Religion: TCheckBox
+      Left = 32
+      Top = 140
+      Width = 97
+      Height = 17
+      Caption = #23447#25945#20449#20208
+      TabOrder = 12
+    end
+    object Guardian: TCheckBox
+      Left = 159
+      Top = 117
+      Width = 97
+      Height = 17
+      Caption = #30417#25252#20154
+      TabOrder = 10
+    end
+    object GuardRela: TCheckBox
+      Left = 302
+      Top = 117
+      Width = 97
+      Height = 17
+      Caption = #30417#25252#20851#31995
+      TabOrder = 11
+    end
+  end
+  object BitBtn1: TBitBtn
+    Left = 248
+    Top = 399
+    Width = 97
+    Height = 34
+    Caption = #20445#23384'(&S)'
+    TabOrder = 4
+    OnClick = BitBtn1Click
+  end
+  object BitBtn2: TBitBtn
+    Left = 351
+    Top = 399
+    Width = 96
+    Height = 34
+    Caption = #20851#38381'(&C)'
+    TabOrder = 5
+    OnClick = BitBtn2Click
+  end
+  object eCopName: TEdit
+    Left = 104
+    Top = 8
+    Width = 353
+    Height = 27
+    TabOrder = 0
+  end
+  object rgPrintType: TRadioGroup
+    Left = 104
+    Top = 35
+    Width = 353
+    Height = 46
+    Columns = 2
+    ItemIndex = 0
+    Items.Strings = (
+      #21482#25171#21360#20869#23481
+      #25171#21360#23436#25972#25143#31821#21345)
+    TabOrder = 1
+  end
+  object cbAll: TCheckBox
+    Left = 40
+    Top = 407
+    Width = 97
+    Height = 17
+    Caption = #20840#36873
+    TabOrder = 3
+    OnClick = cbAllClick
+  end
+end
