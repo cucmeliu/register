@@ -89,19 +89,24 @@ Windows XP，；
 ### 4.1安装与初始化
 执行安装程序，安装本系统后，桌面及程序菜单中均有快捷方式。
 双击桌面快捷图标
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/001.png "户籍管理系统")
 
 系统启动并初始化程序、连接数据
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/002.png "户籍管理系统")
 
 初始化完成后，弹出登录窗口，输入用户名和密码，并点登录进行系统。（初次登录用户名和密码均为admin）
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/003.png "户籍管理系统")
 
 ### 4.2输入
 管理菜单下主要包括“户籍录入”菜单项。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/004.png "户籍管理系统")
 
 工具菜单下主要包括“打印选项”和“设置密码”菜单项。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/005.png "户籍管理系统")
 
 户籍录入：录入户籍信息。
@@ -109,6 +114,7 @@ Windows XP，；
 设置密码：修改登录用户名和密码。
 #### 4.2.1户籍信息录入主窗口
 户籍信息录入主窗口是系统的主要功能窗口。在该窗口中可以录入、修改、列出及打印系统中的户籍信息。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/006.png "户籍管理系统")
 
 显示：列出介于其前设置的时间段的迁入户籍信息。
@@ -120,11 +126,13 @@ Windows XP，；
 打印选中：逐一打印当前选中的户籍信息到户籍卡。
 技巧
 鼠标点列表的的标题头，对应列会排序列出。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/007.png "户籍管理系统")
 
 
 #### 4.2.2添加/修改户籍信息
 点击主窗口下文的“添加”或“修改”按钮或从右键菜单中的相应项，就可进入户籍信息编辑窗口填写信息。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/008.png "户籍管理系统")
  
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/009.png "户籍管理系统")
@@ -143,22 +151,26 @@ Windows XP，；
 只打印内容：只打印用户信息，不打印表格，适用于已经有户籍卡的情况。
 打印完整户籍卡：用户和表格线一同打印，适用于空白纸张打印的情况。
     打印项目：勾选的内容才打印到户籍卡上，不勾选的不打印。
+	
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/010.png "户籍管理系统")
 
 
 #### 4.2.3设置密码
 系统初始用户名和密码均为admin，建议登录后立即修改。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/011.png "户籍管理系统")
 
 ### 4.3输出对每项输出作出说明
 #### 4.3.1报表
 报表为以列表方式打印出系统中的用户信息。
 从右键菜单选择“打印报表”并按照提示即可完成打印。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/012.png "户籍管理系统")
 
 #### 4.3.2户籍卡
 如果在打印选项中的打印方式选择了“只打印内容”：则打印的内容为没有表格边线。
 提示：按住Ctrl可以选择多条记录打印。
+
 ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/013.png "户籍管理系统")
 
  
@@ -179,11 +191,14 @@ Windows XP，；
 将机器码粘贴到邮件中发送给作者。
 将作者邮件返回的注册码粘贴到“注册码”后的框内并选择“注册”。
 如果你提供的是正确的注册码，则到此软件已成功完成注册并激活。
+
  ![户籍管理系统](https://github.com/cucmeliu/register/blob/master/docs/imgs/014.png "户籍管理系统")
 
 ----------------------------------------------------------------------------------------------------------------
 感谢使用！
 
 Leo.Liu
+
 cucme@163.com
+
 2011.8
